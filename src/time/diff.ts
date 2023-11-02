@@ -1,4 +1,9 @@
+
 export type Granuality = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute' | 'second' | 'millisecond';
+export type Timetable<T> = {
+    start: Date;
+    items: T[];
+}[];
 
 /**
  * Returns the week number for this date.  dowOffset is the day of week the week
@@ -146,4 +151,30 @@ export const isSameOrBefore = (date1: Date, date2: Date, granuality: Granuality 
  */
 export const isSameOrAfter = (date1: Date, date2: Date, granuality: Granuality = 'millisecond'): boolean => {
     return flattenDate(date1, granuality).getTime() >= flattenDate(date2, granuality).getTime();
+}
+
+/**
+ * Splits the items into a timetable with the given granuality
+ * @param items 
+ * @param extractor 
+ * @param granuality 
+ * @returns 
+ */
+export const getTimeTable = <T>(items: T[], extractor: (item: T) => Date, granuality: Granuality = 'day'): Timetable<T> => {
+    if (!items || items.length === 0) return [];
+    const result: Timetable<T> = [];
+    let currentDate = flattenDate(new Date(0), granuality);
+    items.forEach((item) => {
+        const itemDate = flattenDate(extractor(item), granuality);
+        if(!isSame(currentDate, itemDate)) {
+            currentDate = itemDate;
+            result.push({
+                start: currentDate,
+                items: []
+            });
+        }
+        result[result.length - 1].items.push(item);
+    });
+
+    return result;
 }
