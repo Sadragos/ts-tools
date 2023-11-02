@@ -6,7 +6,7 @@ import { getBrightness } from "./brightnes";
  * @param maxBrightness 
  * @returns 
  */
-export const generateRandomColor = (minBrightness = 128, maxBrightness = 255) => {
+export const randomHexColor = (minBrightness = 0, maxBrightness = 255) => {
     const letters = '0123456789ABCDEF';
     let color = '#';
     let brightness = 0;
@@ -17,6 +17,6 @@ export const generateRandomColor = (minBrightness = 128, maxBrightness = 255) =>
             color += letters[Math.floor(Math.random() * 16)];
         }
         brightness = getBrightness(color);
-    } while (brightness < minBrightness && brightness > maxBrightness);
+    } while (brightness < minBrightness || brightness > maxBrightness);
     return color;
 }

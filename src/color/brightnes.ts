@@ -58,6 +58,6 @@ export const lightOrDarkContrast = (color: string | undefined, breakpoint = 128)
  * @param breakpoint 
  * @returns 
  */
-export const getBestTextColor = (color: string, breakpoint = 128) => {
+export const contrastTextColor = (color: string, breakpoint = 128) => {
     return lightOrDark(color, breakpoint) === 'light' ? '#000000' : '#ffffff';
 }
