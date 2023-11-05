@@ -10,7 +10,7 @@ import { formatDate } from "../time/format";
  */
 export const genericRangeDisplay = <T>(min: T | undefined, max: T | undefined, transform: (value: T) => string) => {
     if (min === undefined && max === undefined) {
-        return '-';
+        return undefined;
     }
     if (min === undefined) {
         return `<= ${transform(max!)}`;
