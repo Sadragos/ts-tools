@@ -7,3 +7,4 @@ export * from './time';
 export * from './sort';
 export * from './search';
 export * from './random';
+export * from './text';
