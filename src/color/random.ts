@@ -1,3 +1,4 @@
+import { DEFAULT_PATTERN_GENERATOR, randomStringFromPattern } from "../random/patternGenerator";
 import { getBrightness } from "./brightnes";
 
 /**
@@ -7,15 +8,11 @@ import { getBrightness } from "./brightnes";
  * @returns 
  */
 export const randomHexColor = (minBrightness = 0, maxBrightness = 255) => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
+    let color = '';
     let brightness = 0;
 
     do {
-        color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
+        color = randomStringFromPattern('\\#hhhhhh', DEFAULT_PATTERN_GENERATOR);
         brightness = getBrightness(color);
     } while (brightness < minBrightness || brightness > maxBrightness);
     return color;

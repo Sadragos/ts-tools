@@ -6,3 +6,4 @@ export * from './promise';
 export * from './time';
 export * from './sort';
 export * from './search';
+export * from './random';
