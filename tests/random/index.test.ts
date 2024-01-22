@@ -17,6 +17,15 @@ describe('Testing random number generator', () => {
     });
 });
 
+describe('Testing seeded random number generator', () => {
+    test('random integers from 0-10 must contain 0 and not contain 10', () => {
+        for (let i = 0; i < 1000; i++) {
+            const nr = randomInt(0, 10, 'myseed123');
+            expect(nr).toBe(7);
+        }
+    });
+});
+
 describe('Testing random string generator', () => {
     test('random string must have given length', () => {
         const string = randomString(10);

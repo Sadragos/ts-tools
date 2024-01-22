@@ -1,4 +1,4 @@
-import seedrandom from "seedrandom";
+import * as seedrandom from "seedrandom";
 
 /**
  * Returns a random number between min (inclusive) and max (exclusive)
@@ -8,7 +8,7 @@ import seedrandom from "seedrandom";
  * @returns 
  */
 export const randomFloat = (min: number, max: number, seed?: string) => {
-    const rnd = seed ? seedrandom(seed) : Math.random();
+    const rnd = seed ? seedrandom(seed)() : Math.random();
     return rnd * (max - min) + min;
 }
 
@@ -20,7 +20,7 @@ export const randomFloat = (min: number, max: number, seed?: string) => {
  * @returns 
  */
 export const randomFloatInclusive = (min: number, max: number, seed?: string) => {
-    const rnd = seed ? seedrandom(seed) : Math.random();
+    const rnd = seed ? seedrandom(seed)() : Math.random();
     return rnd * (max - min + 1) + min;
 }
 
