@@ -4,6 +4,10 @@ export type Timetable<T> = {
     start: Date;
     items: T[];
 }[];
+export type DateDiff = {
+    amount: number;
+    granularity: Granuality;
+}
 
 /**
  * Returns the week number for this date.  dowOffset is the day of week the week
@@ -177,4 +181,16 @@ export const getTimeTable = <T>(items: T[], extractor: (item: T) => Date, granua
     });
 
     return result;
+}
+
+export const dateDiff = (dateStart: Date, dateEnd: Date, granuality: Granuality | 'auto' = 'auto'): DateDiff => {
+    const diff = dateEnd.getTime() - dateStart.getTime();
+    if (granuality === 'millisecond' || diff < 1000) return { amount: diff, granularity: 'millisecond' };
+    if (granuality === 'second' || diff < 1000 * 60) return { amount: Math.floor(diff / 1000), granularity: 'second' };
+    if (granuality === 'minute' || diff < 1000 * 60 * 60) return { amount: Math.floor(diff / (1000 * 60)), granularity: 'minute' };
+    if (granuality === 'hour' || diff < 1000 * 60 * 60 * 24) return { amount: Math.floor(diff / (1000 * 60 * 60)), granularity: 'hour' };
+    if (granuality === 'day' || diff < 1000 * 60 * 60 * 24 * 7) return { amount: Math.floor(diff / (1000 * 60 * 60 * 24)), granularity: 'day' };
+    if (granuality === 'week' || diff < 1000 * 60 * 60 * 24 * 30) return { amount: Math.floor(diff / (1000 * 60 * 60 * 24 * 7)), granularity: 'week' };
+    if (granuality === 'month' || diff < 1000 * 60 * 60 * 24 * 365) return { amount: Math.floor(diff / (1000 * 60 * 60 * 24 * 30)), granularity: 'month' };
+    return { amount: Math.floor(diff / (1000 * 60 * 60 * 24 * 365)), granularity: 'year' };
 }
