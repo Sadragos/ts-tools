@@ -42,3 +42,14 @@ describe('Testing random string generator', () => {
         expect(string.length).toBeGreaterThan(16);
     });
 });
+
+
+describe('Testing seeded random string generator', () => {
+    test('random string must have given length', () => {
+        for (let i = 0; i < 100; i++) {
+            const string = randomString(10, undefined, 'myseed123');
+            console.log(string);
+            expect(string.length).toBe(10);
+        }
+    });
+});

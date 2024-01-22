@@ -1,4 +1,5 @@
 import { pickRandomCharFromString, pickRandomFromArray } from "./pickers";
+import * as seedrandom from "seedrandom";
 
 export const UPPER_CASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 export const LOWER_CASE = 'abcdefghijklmnopqrstuvwxyz';
@@ -72,10 +73,11 @@ export const DEFAULT_PATTERN_GENERATOR: GeneratorPattern = {
  * @param seed
  * @returns 
  */
-export const randomString = (length: number, characterPool: string = ALPHA_NUMERIC, seed?: string) => {
+export const randomString = (length: number, characterPool: string = ALPHA_NUMERIC, seed?: string | (() => number)) => {
     let result = '';
+    const rnd = !seed ? undefined : (typeof seed === 'string' ? seedrandom(seed) : seed);
     for (let i = 0; i < length; i++) {
-        result += pickRandomCharFromString(characterPool, seed);
+        result += pickRandomCharFromString(characterPool, rnd);
     }
     return result;
 }
@@ -88,17 +90,18 @@ export const randomString = (length: number, characterPool: string = ALPHA_NUMER
  * @returns 
  * @see DEFAULT_PATTERN_GENERATOR
  */
-export const randomStringFromPattern = (pattern: string, patternGenerator: GeneratorPattern = DEFAULT_PATTERN_GENERATOR, seed?: string) => {
+export const randomStringFromPattern = (pattern: string, patternGenerator: GeneratorPattern = DEFAULT_PATTERN_GENERATOR, seed?: string | (() => number)) => {
     let result = '';
+    const rnd = !seed ? undefined : (typeof seed === 'string' ? seedrandom(seed) : seed);
     for (let i = 0; i < pattern.length; i++) {
         const char = pattern.charAt(i);
         if (char === '\\' && i < pattern.length - 1 && patternGenerator.hasOwnProperty(pattern.charAt(i + 1))) {
             result += pattern.charAt(++i);
         } else if (patternGenerator.hasOwnProperty(char)) {
             if (Array.isArray(patternGenerator[char])) {
-                result += pickRandomFromArray(patternGenerator[char] as string[], seed);
+                result += pickRandomFromArray(patternGenerator[char] as string[], rnd);
             } else {
-                result += pickRandomCharFromString(patternGenerator[char] as string, seed);
+                result += pickRandomCharFromString(patternGenerator[char] as string, rnd);
             }
         } else {
             result += char;

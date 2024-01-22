@@ -7,8 +7,8 @@ import * as seedrandom from "seedrandom";
  * @param seed
  * @returns 
  */
-export const randomFloat = (min: number, max: number, seed?: string) => {
-    const rnd = seed ? seedrandom(seed)() : Math.random();
+export const randomFloat = (min: number, max: number, seed?: string | (() => number)) => {
+    const rnd = seed ? (typeof seed === 'string' ? seedrandom(seed) : seed)() : Math.random();
     return rnd * (max - min) + min;
 }
 
@@ -19,8 +19,8 @@ export const randomFloat = (min: number, max: number, seed?: string) => {
  * @param seed
  * @returns 
  */
-export const randomFloatInclusive = (min: number, max: number, seed?: string) => {
-    const rnd = seed ? seedrandom(seed)() : Math.random();
+export const randomFloatInclusive = (min: number, max: number, seed?: string | (() => number)) => {
+    const rnd = seed ? (typeof seed === 'string' ? seedrandom(seed) : seed)() : Math.random();
     return rnd * (max - min + 1) + min;
 }
 
@@ -31,7 +31,7 @@ export const randomFloatInclusive = (min: number, max: number, seed?: string) =>
  * @param seed
  * @returns 
  */
-export const randomInt = (min: number, max: number, seed?: string) => {
+export const randomInt = (min: number, max: number, seed?: string | (() => number)) => {
     return Math.floor(randomFloat(min, max, seed));
 }
 
@@ -42,6 +42,6 @@ export const randomInt = (min: number, max: number, seed?: string) => {
  * @param seed
  * @returns 
  */
-export const randomIntInclusive = (min: number, max: number, seed?: string) => {
+export const randomIntInclusive = (min: number, max: number, seed?: string | (() => number)) => {
     return Math.floor(randomFloatInclusive(min, max, seed));
 }
