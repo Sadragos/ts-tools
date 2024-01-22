@@ -69,12 +69,13 @@ export const DEFAULT_PATTERN_GENERATOR: GeneratorPattern = {
  * Returns a random string of specified length
  * @param length 
  * @param chars 
+ * @param seed
  * @returns 
  */
-export const randomString = (length: number, characterPool: string = ALPHA_NUMERIC) => {
+export const randomString = (length: number, characterPool: string = ALPHA_NUMERIC, seed?: string) => {
     let result = '';
     for (let i = 0; i < length; i++) {
-        result += pickRandomCharFromString(characterPool);
+        result += pickRandomCharFromString(characterPool, seed);
     }
     return result;
 }
@@ -83,10 +84,11 @@ export const randomString = (length: number, characterPool: string = ALPHA_NUMER
  * Returns a random matching the given pattern and pattern Generator
  * @param pattern 
  * @param patternGenerator 
+ * @param seed
  * @returns 
  * @see DEFAULT_PATTERN_GENERATOR
  */
-export const randomStringFromPattern = (pattern: string, patternGenerator: GeneratorPattern = DEFAULT_PATTERN_GENERATOR) => {
+export const randomStringFromPattern = (pattern: string, patternGenerator: GeneratorPattern = DEFAULT_PATTERN_GENERATOR, seed?: string) => {
     let result = '';
     for (let i = 0; i < pattern.length; i++) {
         const char = pattern.charAt(i);
@@ -94,9 +96,9 @@ export const randomStringFromPattern = (pattern: string, patternGenerator: Gener
             result += pattern.charAt(++i);
         } else if (patternGenerator.hasOwnProperty(char)) {
             if (Array.isArray(patternGenerator[char])) {
-                result += pickRandomFromArray(patternGenerator[char] as string[]);
+                result += pickRandomFromArray(patternGenerator[char] as string[], seed);
             } else {
-                result += pickRandomCharFromString(patternGenerator[char] as string);
+                result += pickRandomCharFromString(patternGenerator[char] as string, seed);
             }
         } else {
             result += char;
